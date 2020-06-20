@@ -6,7 +6,10 @@
 # files, poison those log files, then upload a PHP reverse shell to the
 # web server.
 #
-# 
+# Credit to TryHackMe.com for creating the dogcat machine
+#
+# Script Author: Flikk
+# https://github.com/imflikk/tryhackme_solution_scripts
 #####
 
 import argparse
