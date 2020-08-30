@@ -1,5 +1,24 @@
 #!/usr/bin/env python3
 
+#####
+# Script Author: Flikk
+# https://github.com/imflikk/tryhackme_solution_scripts
+#
+# More practice using Python to automatically the entire 'Overpass'
+# machine from TryHackMe.com.  This script will do the following, including printing both flags as they're available:
+#   -Validate connection to website and admin page
+#   -Add cookie to bypass authentication
+#   -Extract SSH key from page and save locally
+#   -Use SSH key to login to machine as the james user
+#   -Modify /etc/hosts to re-direct overpass.thm to attacking machine
+#   -Create python web server on attacking machine with matching directory structure as the overpass.thm website
+#   -Create buildscript.sh file that will copy the contents of root.txt to a world-readable version in /tmp
+#
+# Credit to TryHackMe.com and NinjaJc01 for creating the overpass machine
+#
+# Tested on ParrotOS with Python 3.8.2
+#####
+
 import requests
 import sys
 import os
